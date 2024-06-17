@@ -1,0 +1,76 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+<title>Plitra: Online PL/I to Java Transpiler</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+	crossorigin="anonymous">
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+	integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+	crossorigin="anonymous"></script>
+</head>
+<body>
+	<!-- As a link -->
+	<nav class="navbar navbar-dark bg-dark">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="/">Plitra</a>
+		</div>
+	</nav>
+	<div class="d-flex justify-content-center mt-2">
+		<form th:action="@{/post}" th:object="${code}" method="post">
+			<div style="text-align: center;"
+				class="d-flex justify-content-center mt-3 flex-column">
+				
+				<h3>Translate PL/I-Sourecode to Java</h3>
+				<div class="d-flex justify-content-center">
+					<p style="width: 700px;">Just Copy your PL/I Code and paste it
+						in the left textfield. Afterwards the Transpiler will translate
+						the Source-code to Java for you.</p>
+				</div>
+				<!-- <div class="d-flex justify-content-center">
+					<div style="width: 700px;" class="alert alert-warning" role="alert">Please keep in mind that this Transpiler will translate the PL/I-Code with custom written Java-Code-Template. 
+			    	Always crosscheck and adjust the code, if needed!</div>
+				</div> -->
+			</div>
+			<div class="d-flex flex-direction-row">
+
+				<div class="flex-col m-1">
+					<div class="form-floating">
+						<textarea th:field="*{pli}" class="form-control" value="test"
+							placeholder="Your PL/I Code here..." id="floatingTextarea1"
+							style="height: 500px; max-width: 600px; min-width: 450px;"></textarea>
+						<label for="floatingTextarea1">PL/I</label>
+					</div>
+					<div class="d-flex justify-content-end mt-2">
+						<button type="submit" value="Submit" class="btn btn-primary ">Translate</button>
+					</div>
+				</div>
+				<div class="flex-col m-1">
+					<div class="form-floating">
+						<textarea class="form-control"
+							placeholder="Translated Java Code here..." id="floatingTextarea2"
+							style="height: 500px; max-width: 600px; min-width: 450px;"
+							th:text="${code.pli}" readonly></textarea>
+						<label for="floatingTextarea2">Java</label>
+					</div>
+					<div class="d-flex justify-content-start mt-2">
+						<!-- <button name='reset' type="button" value="Reset" class="btn btn-light"
+				onclick="document.getElementById('floatingTextarea1').reset()"
+				>Reset</button> -->
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div></div>
+	<footer>
+		<div class="d-flex justify-content-center mt-9">
+			<p style="margin-top: 40em;">&#169;Plitra by Lennart Hahner</p>
+		</div>
+	</footer>
+</body>
+</html>
