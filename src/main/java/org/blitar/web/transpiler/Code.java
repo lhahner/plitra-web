@@ -2,8 +2,8 @@ package org.blitar.web.transpiler;
 
 
 public class Code {
-	public String pli;
-	private String java = "test";
+	 String pli;
+	 String java = "";
 
 	public String getPli() {
 		return pli;
