@@ -40,17 +40,17 @@ public class IndexController {
 	public String codeSubmit(@ModelAttribute Code code, Model model) {
 		model.addAttribute("code", code);
 		try {
-			String input = code.getPli();
 			
-			InputStream stream = new ByteArrayInputStream(input.getBytes(StandardCharsets.UTF_8));
-			Pl1Parser parser = new Pl1Parser(stream);
+			InputStream stream = new TranspilerConfig().streamService(new TranspilerConfig().codeService());
+			Pl1Parser parser = new TranspilerConfig().parserService(stream);
 			org.bachelor.transpiler.pl1transpiler.parser.SimpleNode root = parser.program();
-			Mapper mapper = new Mapper(root);
+			Mapper mapper = new TranspilerConfig().mapperService();
 			for(String expression : mapper.javaExpression) {
 				code.java = code.java + expression;
 			}
 		}
 		catch(Exception e) {
+			e.printStackTrace();
 			code.setJava(e.getMessage());
 		}
 		return "translator";
