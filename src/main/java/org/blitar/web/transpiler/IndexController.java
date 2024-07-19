@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import org.bachelor.transpiler.pl1transpiler.mapper.Mapper;
 import org.bachelor.transpiler.pl1transpiler.parser.Pl1Parser;
 import org.bachelor.transpiler.pl1transpiler.symboltable.SymbolTable;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +20,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class IndexController {
+	
+	Pl1Parser parser = null;
+	
+	org.bachelor.transpiler.pl1transpiler.parser.SimpleNode root = null;
+	
+	Mapper mapper = null;
 	
 	@RequestMapping(value = "/trans")
 	public String getTranspiler(Model model) {
@@ -38,22 +45,33 @@ public class IndexController {
 	
 	@RequestMapping(value = "/post", method = RequestMethod.POST) 
 	public String codeSubmit(@ModelAttribute Code code, Model model) {
-		model.addAttribute("code", code);
+		model.addAttribute("code", code);		
+		
 		try {
+			
 			String input = code.getPli();
 			InputStream stream = new ByteArrayInputStream(input.getBytes(StandardCharsets.UTF_8));
-			Pl1Parser parser = new Pl1Parser(stream);
-			org.bachelor.transpiler.pl1transpiler.parser.SimpleNode root = parser.program();
-			Mapper mapper = new Mapper(root);
+			
+			parser = new Pl1Parser(stream);
+			root = parser.program();
+			mapper = new Mapper(root);
+			
 			for(String expression : mapper.javaExpression) {
 				code.java = code.java + expression;
 			}
+			
 		}
 		catch(Exception e) {
 			e.printStackTrace();
 			code.setJava(e.getMessage());
 		}
+		
+		
 		return "translator";
+	}
+	
+	private void free() {
+		
 	}
 }
 
